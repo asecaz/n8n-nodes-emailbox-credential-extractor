@@ -1,6 +1,6 @@
 {
   "name": "@asecaz/n8n-nodes-emailbox-credential-extractor",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Custom n8n node for extracting mailbox credentials from Custom Auth credentials. Protocol-agnostic, supports IMAP, SMTP, POP.",
   "author": "Asecaz",
   "license": "MIT",
