@@ -1,0 +1,55 @@
+{
+  "name": "@asecaz/n8n-nodes-emailbox-credential-extractor",
+  "version": "1.0.0",
+  "description": "Custom n8n node for extracting mailbox credentials from Custom Auth credentials. Protocol-agnostic, supports IMAP, SMTP, POP.",
+  "author": "Asecaz",
+  "license": "MIT",
+  "homepage": "https://github.com/asecaz/n8n-nodes-emailbox-credential-extractor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asecaz/n8n-nodes-emailbox-credential-extractor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/asecaz/n8n-nodes-emailbox-credential-extractor/issues"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
+  "n8n": {
+    "nodes": [
+      "dist/nodes/EMailboxCredentialExtractor/EMailboxCredentialExtractor.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "n8n-core": "^0.200.0",
+    "n8n-workflow": "^0.200.0",
+    "typescript": "^4.9.0"
+  },
+  "peerDependencies": {
+    "n8n-core": "*",
+    "n8n-workflow": "*"
+  },
+  "keywords": [
+    "n8n",
+    "n8n-community-node",
+    "emailbox",
+    "credential",
+    "extractor",
+    "imap",
+    "smtp",
+    "pop",
+    "mail"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
