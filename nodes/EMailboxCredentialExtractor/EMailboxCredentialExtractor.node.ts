@@ -33,7 +33,7 @@ export class EMailboxCredentialExtractor implements INodeType {
 				type: 'string',
 				required: true,
 				default: '',
-				placeholder: 'imap.example.com',
+				placeholder: 'mail server hostname',
 				description: 'Mail server hostname (IMAP/SMTP/POP)',
 			},
 			{
