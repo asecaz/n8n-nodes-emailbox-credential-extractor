@@ -23,12 +23,10 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "prepublishOnly": "npm run build"
   },
-  "n8n": {
-    "nodes": [
-      "dist/nodes/EMailboxCredentialExtractor/EMailboxCredentialExtractor.node.js"
-    ]
-  },
-"devDependencies": {
+	"n8n": {
+	  "nodes": ["dist/EMailboxCredentialExtractor/EMailboxCredentialExtractor.node.js"]
+	},
+  "devDependencies": {
     "@types/node": "^18.0.0",
     "n8n-core": "^1.0.0",
     "n8n-workflow": "^1.0.0",
@@ -51,5 +49,8 @@
   ],
   "engines": {
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@asecaz/n8n-nodes-emailbox-credential-extractor": "^1.0.0"
   }
 }
