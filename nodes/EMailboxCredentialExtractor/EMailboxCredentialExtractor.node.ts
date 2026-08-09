@@ -1,4 +1,3 @@
-import { IExecuteFunctions } from 'n8n-core';
 import {
 	INodeExecutionData,
 	INodeType,
@@ -19,31 +18,14 @@ export class EMailboxCredentialExtractor implements INodeType {
 		},
 		inputs: ['main'],
 		outputs: ['main'],
-		credentials: [
-			{
-				name: 'customAuth',
-				required: true,
-				displayOptions: {
-					show: {
-						authentication: ['customAuth'],
-					},
-				},
-			},
-		],
 		properties: [
 			{
-				displayName: 'Authentication Type',
-				name: 'authentication',
-				type: 'hidden',
-				default: 'customAuth',
-			},
-			{
-				displayName: 'Credential',
-				name: 'credential',
-				type: 'credentials',
-				credentialType: 'customAuth',
+				displayName: 'Credential Name',
+				name: 'credentialName',
+				type: 'string',
 				required: true,
-				description: 'The Custom Auth credential containing user and password',
+				default: 'Dogado-rechnseingg-collector',
+				description: 'Name of the Custom Auth credential to use (e.g., "Dogado-rechnseingg-collector")',
 			},
 			{
 				displayName: 'Host',
@@ -73,7 +55,7 @@ export class EMailboxCredentialExtractor implements INodeType {
 		],
 	};
 
-	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+	async execute(this: any): Promise<INodeExecutionData[][]> {
 		const returnData: INodeExecutionData[] = [];
 
 		const items = this.getInputData();
@@ -83,6 +65,7 @@ export class EMailboxCredentialExtractor implements INodeType {
 				// ============================================================
 				// SCHRITT 1: Hole NODE-PARAMETER (vom User im Workflow eingegeben)
 				// ============================================================
+				const credentialName = this.getNodeParameter('credentialName', i) as string;
 				const host = this.getNodeParameter('host', i) as string;
 				const port = this.getNodeParameter('port', i) as number;
 				const mailbox = this.getNodeParameter('mailbox', i) as string;
@@ -91,25 +74,25 @@ export class EMailboxCredentialExtractor implements INodeType {
 				// SCHRITT 2: Hole CREDENTIALS (aus n8n Credential Store)
 				// Die Credential enthält: user + password (verschlüsselt gespeichert)
 				// ============================================================
-				const credentials = await this.getCredentials('customAuth');
+				const credentials = await this.getCredentials(credentialName);
 
 				if (!credentials) {
 					throw new NodeOperationError(
 						this.getNode(),
-						'No credentials provided. Please select a Custom Auth credential.',
+						`No credentials found with name "${credentialName}". Please ensure the credential exists in your n8n instance.`,
 						{ itemIndex: i }
 					);
 				}
 
 				// Extrahiere user und password aus der Credential
 				// (Fallback für verschiedene n8n Versionen)
-				const user = credentials.data?.user || credentials.user;
-				const password = credentials.data?.password || credentials.password;
+				const user = credentials.user || credentials.data?.user;
+				const password = credentials.password || credentials.data?.password;
 
 				if (!user || !password) {
 					throw new NodeOperationError(
 						this.getNode(),
-						'Credentials missing "user" or "password" field. Please ensure your Custom Auth credential contains both fields.',
+						`Credentials "${credentialName}" missing "user" or "password" field. Please ensure your Custom Auth credential contains both fields.`,
 						{ itemIndex: i }
 					);
 				}
